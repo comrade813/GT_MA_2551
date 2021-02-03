@@ -46,6 +46,7 @@ Mac and Windows:
 - if the program crashes no big deal just hit "run" again and enter it right
 - if you can't figure out why something's not working, or if something isn't right, contact me through groupme or send me an email at kzheng74@gatech.edu
 - some additional notes: for some reason sympy's simplify function doesn't recognize log(e) as 1, so you'll have to simplify that yourself. Also, at times, simplify() won't cancel equivalent expressions in the numerator and denominator if they're under a square root -- you'll see what I mean as you do more problems. Just factor it yourself, its usually not that difficult.
+- if you want log(e) to simplify to 1, instead of writing e^x for example write exp(x)
 
 #### Basic Objects
 ##### Point
