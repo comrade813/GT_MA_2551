@@ -176,6 +176,15 @@ def handle_functions(args):
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
         return True
+    elif args[0] == "binormal":
+        v = diff(func[args[1]][0], func[args[1]][1])
+        T = v.normalize()
+        N = diff(T,func[args[1]][1]).normalize()
+        B = T.cross(N)
+        last_eq[0] = B
+        last_eq[1] = func[args[1]][1]
+        show(B)
+        return True
     elif args[0] == "torsion":
         v = diff(func[args[1]][0], func[args[1]][1])
         T = v.normalize()
