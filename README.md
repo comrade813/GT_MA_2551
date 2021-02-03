@@ -8,7 +8,7 @@
 Python is the language the code is in so obviously you need it to run.
 Mac:
 - brew install python3
-if you don't have homebrew you should get it because its really helpful for a lot of installations
+- if you don't have homebrew you should get it because its really helpful for a lot of installations
 
 Windows:
 - https://www.python.org/downloads/release/python-391/
