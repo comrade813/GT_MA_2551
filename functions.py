@@ -74,27 +74,34 @@ def handle_functions(args):
     global func, last_eq
     if args[0] == "function":
         add_function("\t", args[1])
+        return True
     elif args[0] == "parametric":
         add_parametric("\t", args[1])
+        return True
     elif args[0] == "last_eq":
         if last_eq[0] == None:
             print("No previous equation. Cannot add function.")
             return False
         func[args[1]] = (last_eq[0],last_eq[1])
+        return True
     elif args[0] == "diff":
         last_eq[0] = diff(func[args[1]][0], func[args[1]][1])
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "ddiff":
         last_eq[0] = diff(func[args[1]][0], func[args[1]][1], 2)
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "get_0":
         display(solve(func[args[1]][0], func[args[1]][1]))
+        return True
     elif args[0] == "magnitude_parametric":
         last_eq[0] = func[args[1]][0].magnitude()
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "integrate":
         if len(args) == 2:
             last_eq[0] = integrate(func[args[1]][0], func[args[1]][1])
@@ -103,6 +110,7 @@ def handle_functions(args):
         elif len(args) == 4:
             ans = integrate(func[args[1]][0], (func[args[1]][1], sympify(args[2]), sympify(args[3])))
             show(ans)
+        return True
     elif args[0] == "eval":
         if len(args) != 3:
             print("Invalid number of arguments")
@@ -111,6 +119,7 @@ def handle_functions(args):
             print(func[args[1]][0].subs(func[args[1]][1], float(args[2])))
         except ValueError:
             print("Third argument has to be a float")
+        return True
     elif args[0] == "arclength":
         v = diff(func[args[1]][0], func[args[1]][1])
         if len(args) == 2:
@@ -120,38 +129,45 @@ def handle_functions(args):
         else:
             exp = integrate(v.magnitude(), (func[args[1]][1],sympify(args[2]),sympify(args[3])))
             show(exp)
+        return True
     elif args[0] == "speed":
         v = diff(func[args[1]][0], func[args[1]][1])
         last_eq[0] = v.magnitude()
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "unit_tangent":
         v = diff(func[args[1]][0], func[args[1]][1])
         last_eq[0] = v.normalize()
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "curvature_parametric":
         v = diff(func[args[1]][0], func[args[1]][1])
         T = v.normalize()
         last_eq[0] = diff(T,func[args[1]][1]).magnitude()/v.magnitude()
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "curvature_function":
         f__ = Abs(diff(func[args[1]][0], func[args[1]][1],2))
         f_ = diff(func[args[1]][0], func[args[1]][1])
         last_eq[0] = f__/(1 + (f_)**2)**(3/2)
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "principal_unit_normal":
         T = diff(func[args[1]][0], func[args[1]][1]).normalize()
         last_eq[0] = diff(T,func[args[1]][1]).normalize()
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "acceleration_tangential":
         v = diff(func[args[1]][0], func[args[1]][1])
         last_eq[0] = diff(v.magnitude(),func[args[1]][1])
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "acceleration_normal":
         v = diff(func[args[1]][0], func[args[1]][1])
         T = v.normalize()
@@ -159,6 +175,7 @@ def handle_functions(args):
         last_eq[0] = k*(v.magnitude()**2)
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
     elif args[0] == "torsion":
         v = diff(func[args[1]][0], func[args[1]][1])
         T = v.normalize()
@@ -167,3 +184,6 @@ def handle_functions(args):
         last_eq[0] = -1*(diff(B,func[args[1]][1])/v.magnitude()).dot(N)
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
+        return True
+    return False
+    
