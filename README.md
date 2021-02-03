@@ -172,6 +172,10 @@ Mac and Windows:
 - line contains 1 other argument: the name of the parametric equation you want to use (must be pre-defined)
 - "acceleration_normal r(t)"
 - displays the normal acceleration of r(t)
+##### binormal
+- line contains 1 other argument: the name of the parametric equation you want to use (must be pre-defined)
+- "binormal r(t)"
+- displays the binormal vector of r(t) (equals T cross N)
 ##### torsion
 - line contains 1 other argument: the name of the parametric equation you want to use (must be pre-defined)
 - "torsion r(t)"
