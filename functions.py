@@ -40,7 +40,7 @@ def add_function(indent, name):
     if f == None:
         print("Could not add function.")
         return False
-    func[name] = (f, sym)
+    func[name] = (f, sym, "function")
     display(f)
 
 def add_parametric(indent, name):
@@ -62,7 +62,7 @@ def add_parametric(indent, name):
         print("Could not add function.")
         return False
     v = f_i*C.i + f_j*C.j + f_k*C.k
-    func[name] = (v, sym)
+    func[name] = (v, sym, "parametric")
     display(func[name])
 
 def show(ans):
@@ -78,7 +78,7 @@ def handle_functions(args):
     elif args[0] == "parametric":
         add_parametric("\t", args[1])
         return True
-    elif args[0] == "last_eq":
+    if args[0] == "last_eq":
         if last_eq[0] == None:
             print("No previous equation. Cannot add function.")
             return False
@@ -97,11 +97,6 @@ def handle_functions(args):
     elif args[0] == "get_0":
         display(solve(func[args[1]][0], func[args[1]][1]))
         return True
-    elif args[0] == "magnitude_parametric":
-        last_eq[0] = func[args[1]][0].magnitude()
-        last_eq[1] = func[args[1]][1]
-        show(last_eq[0])
-        return True
     elif args[0] == "integrate":
         if len(args) == 2:
             last_eq[0] = integrate(func[args[1]][0], func[args[1]][1])
@@ -116,9 +111,9 @@ def handle_functions(args):
             print("Invalid number of arguments")
             return False
         try:
-            print(func[args[1]][0].subs(func[args[1]][1], float(args[2])))
+            print(func[args[1]][0].subs(func[args[1]][1], sympify(args[2])))
         except ValueError:
-            print("Third argument has to be a float")
+            print("Third argument has to be a constantfloat")
         return True
     elif args[0] == "arclength":
         v = diff(func[args[1]][0], func[args[1]][1])
@@ -142,21 +137,30 @@ def handle_functions(args):
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
         return True
-    elif args[0] == "curvature_parametric":
-        v = diff(func[args[1]][0], func[args[1]][1])
-        T = v.normalize()
-        last_eq[0] = diff(T,func[args[1]][1]).magnitude()/v.magnitude()
+    elif args[0] == "curvature":
+        if func[args[1]][2] == "parametric":
+            v = diff(func[args[1]][0], func[args[1]][1])
+            T = v.normalize()
+            last_eq[0] = diff(T,func[args[1]][1]).magnitude()/v.magnitude()
+            last_eq[1] = func[args[1]][1]
+            show(last_eq[0])
+            return True
+        elif func[args][1][2] == "function":
+            f__ = Abs(diff(func[args[1]][0], func[args[1]][1],2))
+            f_ = diff(func[args[1]][0], func[args[1]][1])
+            last_eq[0] = f__/(1 + (f_)**2)**(3/2)
+            last_eq[1] = func[args[1]][1]
+            show(last_eq[0])
+            return True
+        return False
+    if func[args[1]][2] != "parametric":
+        return False
+    elif args[0] == "magnitude":
+        last_eq[0] = func[args[1]][0].magnitude()
         last_eq[1] = func[args[1]][1]
         show(last_eq[0])
         return True
-    elif args[0] == "curvature_function":
-        f__ = Abs(diff(func[args[1]][0], func[args[1]][1],2))
-        f_ = diff(func[args[1]][0], func[args[1]][1])
-        last_eq[0] = f__/(1 + (f_)**2)**(3/2)
-        last_eq[1] = func[args[1]][1]
-        show(last_eq[0])
-        return True
-    elif args[0] == "principal_unit_normal":
+    if args[0] == "principal_unit_normal":
         T = diff(func[args[1]][0], func[args[1]][1]).normalize()
         last_eq[0] = diff(T,func[args[1]][1]).normalize()
         last_eq[1] = func[args[1]][1]

@@ -6,6 +6,6 @@ if __name__ == "__main__":
         query = input().split()
         if query[0] == "quit":
             break
-        if not handle_PLP(query) or \
+        if not handle_PLP(query) and \
            not handle_functions(query):
            print("Query not recognized")
